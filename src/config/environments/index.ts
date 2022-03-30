@@ -1,17 +1,11 @@
 import dotenv from 'dotenv';
+import { Env } from 'interfaces/Env.interface';
 dotenv.config();
 import development from "./development";
 import production from './production';
 import test from "./test";
 
-let currentConfig:{
-  port: string | undefined,
-  DB:{
-    host: string,
-    database: string
-  }
-};
-
+let currentConfig: Env;
 
 switch (process.env.NODE_ENV) {
   case "test":

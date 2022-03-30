@@ -1,9 +1,8 @@
-const production = {
+import { Env } from '../../interfaces/Env.interface';
+
+const production:Env={
   port: process.env.PORT,
-  DB: {
-    host: "localhost",
-    database: "moviesDev" 
-  }
+  db_uri: process.env.DB_URI
 }
 
 export default production;

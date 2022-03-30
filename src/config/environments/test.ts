@@ -1,9 +1,8 @@
-const test = {
+import { Env } from '../../interfaces/Env.interface';
+
+const test:Env = {
   port: "4001",
-  DB: {
-    host: "localhost",
-    database: "moviesTest" 
-  }
+  db_uri: "mongodb://localhost/moviesTest"
 }
 
 export default test;
