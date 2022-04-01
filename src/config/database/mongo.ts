@@ -4,4 +4,4 @@ function database (uri:string|undefined):Promise<typeof mongoose> {
   return mongoose.connect(`${uri}`)
 } 
   
-export {database, mongoose}
+export default database

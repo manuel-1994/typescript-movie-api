@@ -1,13 +1,15 @@
 import express, { Application, Request, Response } from "express"
-import { database } from "./config/database/mongo";
+import router from "./routes";
+import  database  from "./config/database/mongo";
+
 
 class Server {
   private app:Application;
   
-  private constructor(private port: string | undefined, uri:string |undefined){
+  private constructor(private port: string | undefined, private uri:string |undefined){
     this.app = express();
 
-    this.dbConnection(uri);
+    this.dbConnection();
     this.middlewares();
     this.routes();
   }
@@ -20,9 +22,9 @@ class Server {
     this.app.use(express.json());
   }
 
-  private async dbConnection(uri:string|undefined):Promise<void>{
+  private async dbConnection():Promise<void>{
     try {
-      const connect = await database(uri)
+      const connect = await database(this.uri)
       console.log('Mongo db connected', connect.connection.host);
     } catch (error) {
       console.log(error);
@@ -30,9 +32,7 @@ class Server {
   }
 
   private routes(){
-    this.app.get('/', (req:Request,res:Response):Response=>{
-      return res.send('Hola mundo')
-    })
+      this.app.use('/api', router)
   }
 
   public start(callback:()=>void){
