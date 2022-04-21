@@ -1,20 +1,17 @@
 import { Request,Response, NextFunction } from 'express';
-import { validate} from 'class-validator';
-import {ClassConstructor, plainToClass} from 'class-transformer'
-import { User } from '../models/users';
-import filterErrors from '../helpers/filterErrors';
+import {AnyZodObject} from 'zod'
+import { CreateUserSchema } from '../schemas/user';
 
-async function validateData(cls:ClassConstructor<Object>, req:Request,res:Response,next:NextFunction){
-  const data = plainToClass(cls, req.body)
-  const errors = await validate(data)
-  if(errors.length>0){ 
-    const message = filterErrors(errors)
-    return res.status(400).json({success:false, message})
+
+async function validateData(schema:AnyZodObject, req:Request,res:Response,next:NextFunction){
+  const data = schema.safeParse(req.body)
+  if(data.success){
+    return next();
   }
-  return next();
+  return res.status(400).json(data)
 }
 
-const validateUser = (req:Request,res:Response,next:NextFunction) => validateData(User, req,res,next)
+const validateUser = (req:Request,res:Response,next:NextFunction) => validateData(CreateUserSchema, req,res,next)
 
 export {
   validateUser

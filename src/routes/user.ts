@@ -1,10 +1,10 @@
 import {Request, Response, Router} from 'express'
-import Users from '../services/users';
+import Users from '../services/user';
 import { Info } from '../interfaces/info.interface';
 import { validateUser } from '../middlewares/validateData';
 
+const usersService = new Users();
 const router = Router()
-const usersService = new Users()
 
 router.get('/', async (req:Request,res:Response):Promise<Response>=>{
   const response:Info= await usersService.getAll()
@@ -12,12 +12,13 @@ router.get('/', async (req:Request,res:Response):Promise<Response>=>{
 })
 
 router.post('/', validateUser, async(req:Request,res:Response):Promise<Response>=>{
-  const response:Info= await usersService.create(req.body)
+  const data= req.body
+  const response:Info= await usersService.create(data)
   return res.status(201).json(response)
 })
 
 router.put('/', validateUser, async(req:Request, res:Response):Promise<Response>=>{
-  const response:Info = await usersService.update(req.body.id,req.body)
+  const response:Info = await usersService.update(req.body.id, req.body)
   return res.status(response.success?200:400).json(response)
 })
 

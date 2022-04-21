@@ -1,4 +1,4 @@
-import { ValidationError } from 'class-validator';
+/* import { ValidationError } from 'class-validator';
 
 function filterErrors(errors:ValidationError[]){
   let message:string[]= []
@@ -10,4 +10,4 @@ function filterErrors(errors:ValidationError[]){
   return message;
 }
 
-export default filterErrors
+export default filterErrors */

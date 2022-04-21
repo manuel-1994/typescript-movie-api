@@ -1,5 +1,5 @@
 import config from "./config/environments";
-import Server from "./server";
+import {Server} from "./Server";
 
 function main(){
   const server = Server.init(config.port,config.db_uri);
