@@ -2,7 +2,6 @@ import { Request,Response, NextFunction } from 'express';
 import {AnyZodObject} from 'zod'
 import { CreateUserSchema } from '../schemas/user';
 
-
 async function validateData(schema:AnyZodObject, req:Request,res:Response,next:NextFunction){
   const data = schema.safeParse(req.body)
   if(data.success){

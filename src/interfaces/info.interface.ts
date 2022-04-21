@@ -1,5 +1,5 @@
 export interface Info{
   success: boolean,
   message?: string | string[],
-  data?: Object
+  data?: Object | null
 }

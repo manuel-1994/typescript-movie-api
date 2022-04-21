@@ -1,4 +1,4 @@
-import { prop, modelOptions} from '@typegoose/typegoose';
+import { prop, modelOptions, getModelForClass} from '@typegoose/typegoose';
 
 @modelOptions({schemaOptions: {timestamps: true}})
 class User{
@@ -16,4 +16,6 @@ class User{
   public role: number;
 }
 
-export {User}
+const UserModel = getModelForClass(User);
+
+export {UserModel,User}
