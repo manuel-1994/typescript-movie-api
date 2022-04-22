@@ -7,23 +7,23 @@ class Users extends GenericCRUD<User> {
     super(UserModel, "User");
   }
 
-  async getByEmail(email:String):Promise<Info>{
+  async getByEmail(email:string):Promise<Info>{
     const user = await UserModel.findOne({email});
    
     if(user) return {success:true, data:user};
 
-    return {success:false, message:"Email no encontrado"};
+    return {success:false, message:"User not found"};
   }
 
   async create(data:User):Promise<Info>{
-    const isValid = await this.validateEmail(data.email);
-    
+    const isValid = await this.validateEmail(<string>data.email);
+  
     if(isValid.success) return await super.create(data);
     
     return isValid;
   }
   
-  private async validateEmail(email:String):Promise<Info>{
+  private async validateEmail(email:string):Promise<Info>{
     const isValid = await this.getByEmail(email);
     
     if(isValid.success) return {success: false, message:"El email ya existe"};

@@ -31,7 +31,7 @@ export class Server {
   }
 
   private routes() {
-    this.app.use('/api', router);
+    this.app.use('/api', router());
   }
 
   public start(callback: () => void) {

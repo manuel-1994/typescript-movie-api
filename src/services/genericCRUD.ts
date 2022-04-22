@@ -5,7 +5,7 @@ import { BeAnObject, AnyParamConstructor } from '@typegoose/typegoose/lib/types'
 abstract class GenericCRUD<T, U extends AnyParamConstructor<T> = AnyParamConstructor<T> >{
   private dataModel:ReturnModelType<U, BeAnObject>;
 
-  constructor(dataModel:ReturnModelType<U, BeAnObject>, private nameOfService:String){
+  constructor(dataModel:ReturnModelType<U, BeAnObject>, private nameOfService:string){
     this.dataModel = dataModel;
   }
 
@@ -19,7 +19,7 @@ abstract class GenericCRUD<T, U extends AnyParamConstructor<T> = AnyParamConstru
     return {success:true, data: users}
   }
 
-  async update(id:String,data:T):Promise<Info>{
+  async update(id:string,data:T):Promise<Info>{
     const dataUpdated = await this.dataModel.findByIdAndUpdate(id,data, {new:true});
     if(dataUpdated){
       return {success:true, message:`Success updated ${this.nameOfService}`, data: dataUpdated}
@@ -27,7 +27,7 @@ abstract class GenericCRUD<T, U extends AnyParamConstructor<T> = AnyParamConstru
     return {success:false, message:`Update error; ${this.nameOfService} not found`}
   }
 
-  async delete(id:String):Promise<Info>{
+  async delete(id:string):Promise<Info>{
     const dataDeleted = await this.dataModel.findByIdAndDelete(id);
     if(dataDeleted){
       return {success:true, message:`Success deleted ${this.nameOfService}`, data:dataDeleted}

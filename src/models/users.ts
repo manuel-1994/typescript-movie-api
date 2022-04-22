@@ -3,17 +3,17 @@ import { prop, modelOptions, getModelForClass} from '@typegoose/typegoose';
 @modelOptions({schemaOptions: {timestamps: true}})
 class User{
   @prop()
-  public name: string;
+  public name?: string;
 
   @prop({trim:true})
 
-  public email: string;
+  public email?: string;
 
   @prop({trim:true })
-  public password: string;
+  public password?: string;
 
   @prop({default:0})
-  public role: number;
+  public role?: number;
 }
 
 const UserModel = getModelForClass(User);
