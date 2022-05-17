@@ -1,5 +1,5 @@
-export interface Info{
+export interface Info<T>{
   success: boolean,
   message?: string | string[],
-  data?: Object | null
+  data?: T
 }

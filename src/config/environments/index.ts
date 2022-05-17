@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import { Env } from 'interfaces/Env.interface';
+import { Env } from '../../interfaces/Env.interface';
 dotenv.config();
 import development from "./development";
 import production from './production';

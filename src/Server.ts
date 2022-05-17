@@ -1,13 +1,13 @@
 import express, { Application } from "express";
-import router from "./routes";
+import routers from "./routes";
 import database from "./config/database/mongo";
 
 export class Server {
-  private app: Application;
+  private app: Application 
 
   private constructor(private port: string | undefined, private uri: string | undefined) {
     this.app = express();
-
+    
     this.dbConnection();
     this.middlewares();
     this.routes();
@@ -31,7 +31,7 @@ export class Server {
   }
 
   private routes() {
-    this.app.use('/api', router());
+    this.app.use('/api', routers());
   }
 
   public start(callback: () => void) {

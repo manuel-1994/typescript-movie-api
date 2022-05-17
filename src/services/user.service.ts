@@ -2,20 +2,20 @@ import GenericCRUD from './genericCRUD';
 import {UserModel,User} from '../models/users';
 import { Info } from '../interfaces/info.interface';
 
-class Users extends GenericCRUD<User> {
+class UserService extends GenericCRUD<User> {
   constructor(){
     super(UserModel, "User");
   }
 
-  async getByEmail(email:string):Promise<Info>{
+  async getByEmail(email:string):Promise<Info<User>>{
     const user = await UserModel.findOne({email});
-   
+    
     if(user) return {success:true, data:user};
 
     return {success:false, message:"User not found"};
   }
 
-  async create(data:User):Promise<Info>{
+  async create(data:User):Promise<Info<User>>{
     const isValid = await this.validateEmail(<string>data.email);
   
     if(isValid.success) return await super.create(data);
@@ -23,7 +23,7 @@ class Users extends GenericCRUD<User> {
     return isValid;
   }
   
-  private async validateEmail(email:string):Promise<Info>{
+  private async validateEmail(email:string):Promise<Info<User>>{
     const isValid = await this.getByEmail(email);
     
     if(isValid.success) return {success: false, message:"El email ya existe"};
@@ -32,4 +32,4 @@ class Users extends GenericCRUD<User> {
   }
 }
 
-export default Users;
+export default UserService;

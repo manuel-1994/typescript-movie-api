@@ -1,11 +1,9 @@
-import { Router } from "express";
-import user from './user'
+import auth from "./auth.routes";
+import UserRouter from './user.routes'
+import express from 'express';
 
-const router = ()=>{
-  const app = Router();
-  user(app);
-
-  return app
+const routers = ():Array<express.Router>=>{
+  return [new UserRouter().router]
 }
 
-export default router
+export default routers
