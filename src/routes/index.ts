@@ -1,4 +1,3 @@
-import auth from "./auth.routes";
 import UserRouter from './user.routes'
 import express from 'express';
 

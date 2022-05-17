@@ -1,20 +1,18 @@
 import express, { Application } from "express";
 import routers from "./routes";
 import database from "./config/database/mongo";
+import ConfigServer from './config/config';
 
-export class Server {
-  private app: Application 
+export class Server extends ConfigServer {
+  private app: Application = express(); 
+  private port: number = this.getNumberEnviroment("PORT");
+  private db_uri: string|undefined = this.getEnviroment("DB_URI");
 
-  private constructor(private port: string | undefined, private uri: string | undefined) {
-    this.app = express();
-    
+  private constructor() {
+    super();
     this.dbConnection();
     this.middlewares();
     this.routes();
-  }
-
-  public static init(port: string | undefined, uri: string | undefined): Server {
-    return new this(port, uri);
   }
 
   private middlewares() {
@@ -23,7 +21,7 @@ export class Server {
 
   private async dbConnection(): Promise<void> {
     try {
-      const connect = await database(this.uri);
+      const connect = await database(this.db_uri);
       console.log('Mongo db connected', connect.connection.host);
     } catch (error) {
       console.log(error);
@@ -34,7 +32,12 @@ export class Server {
     this.app.use('/api', routers());
   }
 
-  public start(callback: () => void) {
-    this.app.listen(this.port, callback);
+  public static init(): Server {
+    return new this();
+  }
+  
+  public async listen() {
+    await this.app.listen(this.port);
+    console.log(`Application running on: http://localhost:${this.port}`);
   }
 }
