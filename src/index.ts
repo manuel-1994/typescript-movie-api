@@ -4,5 +4,4 @@ function main(){
   const server = Server.init();
   server.listen()
 }
-
 main();

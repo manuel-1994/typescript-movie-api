@@ -1,6 +1,5 @@
 import express, { Application } from "express";
 import routers from "./routes";
-import database from "./config/database/mongo";
 import ConfigServer from './config/config';
 
 export class Server extends ConfigServer {
@@ -10,9 +9,13 @@ export class Server extends ConfigServer {
 
   private constructor() {
     super();
-    this.dbConnection();
     this.middlewares();
+    this.dbConnection();
     this.routes();
+  }
+
+  public static init(): Server {
+    return new this();
   }
 
   private middlewares() {
@@ -21,8 +24,8 @@ export class Server extends ConfigServer {
 
   private async dbConnection(): Promise<void> {
     try {
-      const connect = await database(this.db_uri);
-      console.log('Mongo db connected', connect.connection.host);
+      const connect = await this.mongooseConfig();
+      console.log('Connected to connected:', connect.connection.name);
     } catch (error) {
       console.log(error);
     }
@@ -32,10 +35,6 @@ export class Server extends ConfigServer {
     this.app.use('/api', routers());
   }
 
-  public static init(): Server {
-    return new this();
-  }
-  
   public async listen() {
     await this.app.listen(this.port);
     console.log(`Application running on: http://localhost:${this.port}`);

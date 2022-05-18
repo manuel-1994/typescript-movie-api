@@ -1,10 +1,25 @@
 import dotenv from 'dotenv';
-export default class ConfigServer{
+import mongoose from 'mongoose';
+export default abstract class ConfigServer{
   constructor(){
-    const nodeNameEnv = this.createEnviroment(this.nodeEnviroment());
+    const nodeNameEnv = this.createEnviroment(this.nodeEnviroment);
     dotenv.config({
       path: nodeNameEnv
     })
+  }
+
+  private get nodeEnviroment(): string{
+    return this.getEnviroment("NODE_ENV")?.trim() || "";
+  }
+
+  private createEnviroment(path:string): string{
+    const arrayEnviroment: string[] = ["env"]
+
+    if(path.length > 0){
+      const stringToArray = path.split('.');
+      arrayEnviroment.push(...stringToArray)
+    }
+    return '.' + arrayEnviroment.join('.')
   }
 
   public getEnviroment(key:string): string | undefined{
@@ -15,18 +30,7 @@ export default class ConfigServer{
     return Number(this.getEnviroment(key));
   }
 
-  public nodeEnviroment(): string{
-    return this.getEnviroment("NODE_ENV")?.trim() || "";
-  }
-
-  public createEnviroment(path:string): string{
-    const arrayEnviroment: string[] = ["env"]
-
-    if(path.length > 0){
-      const stringToArray = path.split('.');
-      arrayEnviroment.push(...stringToArray)
-    }
-
-    return '.' + arrayEnviroment.join('.')
+  public mongooseConfig():Promise<typeof mongoose> {
+    return mongoose.connect(<string>this.getEnviroment('DB_URI'))
   }
 }
