@@ -1,30 +1,53 @@
-import GenericCRUD from './genericCRUD';
-import {UserModel,User} from '../models/users';
-import { Info } from '../interfaces/info.interface';
+import {UserModel,User} from '../models/users.model';
+import {IResponse, IService} from '../interfaces'
 
-class UserService extends GenericCRUD<User> {
-  constructor(){
-    super(UserModel, "User");
-  }
+class UserService implements IService<User> {
 
-  async getByEmail(email:string):Promise<Info<User>>{
-    const user = await UserModel.findOne({email});
-    
-    if(user) return {success:true, data:user};
+  async create(model: User): Promise<IResponse<User>> {
+    const isValid = await this.validateEmail(<string>model.email);
 
-    return {success:false, message:"User not found"};
-  }
-
-  async create(data:User):Promise<Info<User>>{
-    const isValid = await this.validateEmail(<string>data.email);
-  
-    if(isValid.success) return await super.create(data);
+    if(isValid.success){
+      const saveData =  await UserModel.create(model);
+      return {success:true,message:`Success created user`, data:saveData}
+    }
     
     return isValid;
   }
-  
-  private async validateEmail(email:string):Promise<Info<User>>{
-    const isValid = await this.getByEmail(email);
+
+  async getAll(): Promise<IResponse<User[]>> {
+    const users = await UserModel.find();
+    if(users.length > 0){
+      return {success:true, data: users}
+    }
+    return {success:false, message:"Users don't exist"}
+  }
+
+  async get(query:User): Promise<IResponse<User>> {
+    const user = await UserModel.findOne(query);
+    
+    if(user) return {success:true, data:user};
+
+    return {success:false, message:"User not found"}
+  }
+
+  async update(id: string, model: User): Promise<IResponse<User>> {
+    const dataUpdated = await UserModel.findByIdAndUpdate(id,model, {new:true});
+    if(dataUpdated){
+      return {success:true, message:`Success updated user`, data: dataUpdated}
+    }
+    return {success:false, message:`Update error; user not found`}
+  }
+
+  async delete(id: string): Promise<IResponse<User>> {
+    const dataDeleted = await UserModel.findByIdAndDelete(id);
+    if(dataDeleted){
+      return {success:true, message:`Success deleted user`, data:dataDeleted}
+    }
+    return {success:false, message:`Delete error; user not found`}
+  }
+
+  private async validateEmail(email:string){
+    const isValid = await this.get({email});
     
     if(isValid.success) return {success: false, message:"El email ya existe"};
     

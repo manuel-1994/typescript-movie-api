@@ -5,7 +5,6 @@ import ConfigServer from './config/config';
 export class Server extends ConfigServer {
   private app: Application = express(); 
   private port: number = this.getNumberEnviroment("PORT");
-  private db_uri: string|undefined = this.getEnviroment("DB_URI");
 
   private constructor() {
     super();

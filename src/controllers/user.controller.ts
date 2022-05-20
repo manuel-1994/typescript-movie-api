@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { CreateUserType, UpdateUserBodyType, UpdateUserParamsType } from "../schemas/user.schema";
 import { UserService } from "../services";
 
-
 export default class UserController{
   constructor(private readonly userService:UserService = new UserService()){
     this.getUsers = this.getUsers.bind(this)
@@ -24,7 +23,7 @@ export default class UserController{
 
   async getByEmail(req:Request,res:Response){
     try {
-      const response = await this.userService.getByEmail(req.body);
+      const response = await this.userService.get(req.body);
       return res.status(200).json(response);
     } catch (error) {
       console.log(error);

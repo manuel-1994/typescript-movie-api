@@ -3,7 +3,6 @@ import { UserController } from '../controllers';
 import {CreateUserSchema,UpdateUserSchema} from '../schemas/user.schema';
 import schemaValidation from '../middlewares/schemaValidator';
 
-
 export default class UserRouter extends BaseRouter<UserController>{
   constructor(){
     super(UserController);
