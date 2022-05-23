@@ -16,9 +16,7 @@ class UserService implements IService<User> {
 
   async getAll(): Promise<IResponse<User[]>> {
     const users = await UserModel.find();
-    if(users.length > 0){
-      return {success:true, data: users}
-    }
+    if(users.length > 0) return {success:true, data: users}
     return {success:false, message:"Users don't exist"}
   }
 

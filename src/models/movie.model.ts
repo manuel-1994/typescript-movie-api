@@ -12,8 +12,8 @@ class Movie{
   @prop({trim:true})
   public overview?: string;
 
-  @prop({trim:true})
-  public releaseDate?: string;
+  @prop()
+  public releaseDate?: Date;
 
   @prop({default:0 })
   public stars?: number;
