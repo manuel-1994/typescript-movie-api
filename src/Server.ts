@@ -1,4 +1,6 @@
 import express, { Application } from "express";
+import cors from "cors";
+import cookie from "cookie-parser";
 import routers from "./routes";
 import ConfigServer from './config/config';
 
@@ -19,6 +21,9 @@ export class Server extends ConfigServer {
 
   private middlewares() {
     this.app.use(express.json());
+    this.app.use(express.urlencoded({extended:true}));
+    this.app.use(cors());
+    this.app.use(cookie());
   }
 
   private async dbConnection(): Promise<void> {
