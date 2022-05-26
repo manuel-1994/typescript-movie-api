@@ -1,4 +1,4 @@
-import { BaseRouter } from '../config/base.router';
+import BaseRouter  from '../config/base.router';
 import { UserController } from '../controllers';
 import {CreateUserSchema,UpdateUserSchema} from '../schemas/user.schema';
 import schemaValidation from '../middlewares/schemaValidator';
@@ -8,7 +8,7 @@ export default class UserRouter extends BaseRouter<UserController>{
     super(UserController);
   }
   
-  routes(): void {
+  public routes(): void {
     this.router.get('/users', this.controller.getUsers);
     this.router.get('/user/:email', this.controller.getByEmail);
     this.router.post('/createUser', schemaValidation(CreateUserSchema),this.controller.createUser);

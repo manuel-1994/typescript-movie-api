@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
 import { MovieService } from "../services";
+import BaseController from '../config/base.controller';
 
-export default class MovieController{
-  constructor(private readonly movieService: MovieService = new MovieService()){
+export default class MovieController extends BaseController<MovieService>{
+  constructor(){
+    super(MovieService);
     this.getMovies = this.getMovies.bind(this);
     this.getMovie = this.getMovie.bind(this);
     this.createMovie = this.createMovie.bind(this);
@@ -10,53 +12,53 @@ export default class MovieController{
     this.deleteMovie = this.deleteMovie.bind(this);
   }
 
-  async getMovies(req:Request, res:Response){
+  public async getMovies(req:Request, res:Response){
     try {
-      const response = await this.movieService.getAll();
-      return res.status(response.success?200:400).json(response)
+      const response = await this.service.getAll();
+      if(response.success) return this.httpResponse.Ok(res, response.data);
+      return this.httpResponse.NotFound(res, response.error as string); 
     } catch (error) {
-      console.log(error);
-      return res.status(500).json({message:"Internal server error"})
+      return this.httpResponse.Error(res,error);
     }
   }
 
-  async getMovie(req:Request, res:Response){
+  public async getMovie(req:Request, res:Response){
     try {
-      const response = await this.movieService.get(req.body);
-      return res.status(response.success?200:400).json(response)
+      const response = await this.service.get(req.body);
+      if(response.success) return this.httpResponse.Ok(res, response.data);
+      return this.httpResponse.NotFound(res, response.error as string); 
     } catch (error) {
-      console.log(error);
-      return res.status(500).json({message:"Internal server error"})
+      return this.httpResponse.Error(res,error);
     }
   }
 
-  async createMovie(req:Request, res:Response){
+  public async createMovie(req:Request, res:Response){
     try {
-      const response = await this.movieService.create(req.body);
-      return res.status(response.success?201:400).json(response)
+      const response = await this.service.create(req.body);
+      if(response.success) return this.httpResponse.Created(res, response.data);
+      return this.httpResponse.BadRequest(res, response.error as string); 
     } catch (error) {
-      console.log(error);
-      return res.status(500).json({message:"internal server error"})
+      return this.httpResponse.Error(res,error)
     }
   }
 
-  async updateMovie(req:Request,res:Response){
+  public async updateMovie(req:Request,res:Response){
     try {
-      const response = await this.movieService.update(req.params.id, req.body);
-      return res.status(response.success?200:400).json(response);
+      const response = await this.service.update(req.params.id, req.body);
+      if(response.success) return this.httpResponse.Ok(res, response.data);
+      return this.httpResponse.NotFound(res, response.error as string); 
     } catch (error) {
-      console.log(error);
-      return res.status(500).json({message:"Internal server error"})
+      return this.httpResponse.Error(res,error);
     }
   }
 
-  async deleteMovie(req:Request, res:Response){
+  public async deleteMovie(req:Request, res:Response){
     try {
-      const response = await this.movieService.delete(req.params.id);
-      res.status(response.success?200:400).json(response);
+      const response = await this.service.delete(req.params.id);
+      if(response.success) return this.httpResponse.Ok(res, response.data);
+      return this.httpResponse.NotFound(res, response.error as string); 
     } catch (error) {
-      console.log(error);
-      return res.status(500).json({message:"Internal server error"})
+      return this.httpResponse.Error(res,error);
     }
   }
 }

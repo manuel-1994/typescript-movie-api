@@ -1,4 +1,4 @@
-import { BaseRouter } from '../config/base.router';
+import  BaseRouter  from '../config/base.router';
 import { MovieController } from '../controllers';
 import schemaValidation from '../middlewares/schemaValidator';
 import { CreateMovieSchema, UpdateMovieSchema } from '../schemas/movie.schema';
@@ -8,7 +8,7 @@ export default class MovieRouter extends BaseRouter<MovieController>{
     super(MovieController);
   }
   
-  routes(): void {
+  public routes(): void {
     this.router.get('/movies', this.controller.getMovies);
     this.router.get('/movie',this.controller.getMovie);
     this.router.post('/createMovie',schemaValidation(CreateMovieSchema), this.controller.createMovie);

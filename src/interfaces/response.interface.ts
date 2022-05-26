@@ -1,5 +1,5 @@
 export default interface IResponse<T>{
-  success: boolean,
-  message?: string | string[],
-  data?: T | T[]
+  success: boolean
+  data?: T | T[],
+  error?: string
 }

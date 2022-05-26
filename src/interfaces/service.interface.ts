@@ -1,4 +1,4 @@
-import IResponse  from './response.interface';
+import  IResponse  from "./response.interface";
 
 export default interface IService<T>{
   create(model:T):Promise<IResponse<T>>,
