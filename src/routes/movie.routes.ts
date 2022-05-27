@@ -8,7 +8,7 @@ export default class MovieRouter extends BaseRouter<MovieController>{
     super(MovieController);
   }
   
-  public routes(): void {
+  protected routes(): void {
     this.router.get('/movies', this.controller.getMovies);
     this.router.get('/movie',this.controller.getMovie);
     this.router.post('/createMovie',schemaValidation(CreateMovieSchema), this.controller.createMovie);

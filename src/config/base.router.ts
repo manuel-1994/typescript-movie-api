@@ -9,5 +9,5 @@ export default abstract class BaseRouter<T>{
     this.routes();
   }
 
-  public routes(){}
+  protected routes(){}
 }

@@ -8,7 +8,7 @@ export default class UserRouter extends BaseRouter<UserController>{
     super(UserController);
   }
   
-  public routes(): void {
+  protected routes(): void {
     this.router.get('/users', this.controller.getUsers);
     this.router.get('/user/:email', this.controller.getByEmail);
     this.router.post('/createUser', schemaValidation(CreateUserSchema),this.controller.createUser);
