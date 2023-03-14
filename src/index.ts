@@ -1,6 +1,6 @@
 import {Server} from "./Server";
 
-(function main(){
+(function(){
   const server = Server.init();
   server.listen()
 })();
