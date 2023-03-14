@@ -1,8 +1,8 @@
 import { prop, modelOptions, getModelForClass, Ref} from '@typegoose/typegoose';
 import { User } from './users.model';
+import BaseModel from '../config/base.model';
 
-@modelOptions({schemaOptions: {timestamps: true}})
-class Review{
+class Review extends BaseModel{
   @prop({ref: ()=> User})
   public author?: Ref<User>;
 

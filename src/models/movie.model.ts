@@ -1,5 +1,6 @@
 import { prop, modelOptions, getModelForClass, Ref} from '@typegoose/typegoose';
 import { Review } from './reviews.model';
+import { User } from './users.model';
 
 @modelOptions({schemaOptions: {timestamps: true}})
 class Movie{
@@ -23,6 +24,9 @@ class Movie{
 
   @prop({ref: ()=> Review})
   public reviews?: Ref<Review>[];
+
+  @prop({ref: ()=> User})
+  public createBy?: Ref<User>
 }
 
 const MovieModel = getModelForClass(Movie);

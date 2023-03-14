@@ -1,6 +1,6 @@
 import { Response } from "express";
 
-enum HttpStatus{
+const enum HttpStatus{
   OK = 200,
   CREATED = 201,
   BAD_REQUETS = 400,

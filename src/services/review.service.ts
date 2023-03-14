@@ -2,7 +2,6 @@ import { IResponse, IService } from "../interfaces";
 import { Review, ReviewModel } from "../models/reviews.model";
 
 export default class ReviewService implements IService<Review>{
-
   async create(model: Review): Promise<IResponse<Review>> {
     const saveReview = await ReviewModel.create(model);
     return {success: true, data: saveReview}
